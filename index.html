@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manto — Piezas Únicas con Propósito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --cream:    #F5EFE6;
+        --sand:     #E8DDD0;
+        --moss:     #3B4A35;
+        --moss-light: #5A6E50;
+        --umber:    #8B5E3C;
+        --terra:    #C47B3E;
+        --mycelium: #B8A898;
+        --dark:     #1E1E18;
+        --white:    #FDFAF6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Jost', sans-serif;
+        background: var(--cream);
+        color: var(--dark);
+        overflow-x: hidden;
+        cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        background: var(--terra);
+        position: fixed; pointer-events: none; z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+        mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+        width: 36px; height: 36px;
+        border: 1px solid var(--umber);
+        border-radius: 50%;
+        position: fixed; pointer-events: none; z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+        opacity: 0.6;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* ── NAV ── */
+    nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 28px 60px;
+        transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+        background: rgba(245,239,230,0.92);
+        backdrop-filter: blur(12px);
+        padding: 16px 60px;
+        border-bottom: 1px solid var(--sand);
+    }
+    .nav-logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.6rem; letter-spacing: 0.3em;
+        color: var(--moss); text-decoration: none;
+        font-weight: 400;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+        font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+        color: var(--dark); text-decoration: none; font-weight: 400;
+        position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+        content: ''; position: absolute; bottom: 0; left: 0;
+        width: 0; height: 1px; background: var(--terra);
+        transition: width 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+        background: var(--moss); color: var(--cream) !important;
+        padding: 10px 22px; letter-spacing: 0.15em;
+        font-size: 0.65rem !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--moss-light); }
+
+    /* ── HERO ── */
+    .hero {
+        min-height: 100vh;
+        display: grid; grid-template-columns: 1fr 1fr;
+        position: relative; overflow: hidden;
+    }
+    .hero-left {
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 140px 60px 80px;
+        position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+        font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+        color: var(--terra); margin-bottom: 24px;
+        display: flex; align-items: center; gap: 16px;
+    }
+    .hero-eyebrow::before {
+        content: ''; width: 40px; height: 1px; background: var(--terra);
+    }
+    .hero-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(4rem, 7vw, 8rem);
+        font-weight: 300; line-height: 0.9;
+        color: var(--moss); margin-bottom: 32px;
+    }
+    .hero-title em { font-style: italic; color: var(--umber); }
+    .hero-sub {
+        font-size: 0.85rem; font-weight: 300; line-height: 1.8;
+        color: #5a554e; max-width: 420px; margin-bottom: 48px;
+        letter-spacing: 0.03em;
+    }
+    .hero-btns { display: flex; gap: 20px; align-items: center; }
+    .btn-primary {
+        background: var(--moss); color: var(--cream);
+        padding: 16px 36px; font-size: 0.7rem;
+        letter-spacing: 0.2em; text-transform: uppercase;
+        text-decoration: none; border: none; cursor: none;
+        transition: background 0.3s, transform 0.3s;
+        display: inline-block;
+    }
+    .btn-primary:hover { background: var(--umber); transform: translateY(-2px); }
+    .btn-ghost {
+        color: var(--dark); font-size: 0.7rem;
+        letter-spacing: 0.2em; text-transform: uppercase;
+        text-decoration: none; padding-bottom: 2px;
+        border-bottom: 1px solid var(--dark);
+        transition: color 0.3s, border-color 0.3s;
+    }
+    .btn-ghost:hover { color: var(--terra); border-color: var(--terra); }
+
+    .hero-right {
+        position: relative; overflow: hidden;
+        background: var(--moss);
+    }
+    .hero-right::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at 60% 40%, rgba(180,130,70,0.2) 0%, transparent 70%);
+        z-index: 1;
+    }
+    .hero-mycelium {
+        position: absolute; inset: 0; z-index: 0;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .hero-mycelium svg { width: 100%; height: 100%; opacity: 0.15; }
+    .hero-tag {
+        position: absolute; bottom: 80px; right: 60px; z-index: 3;
+        text-align: right;
+    }
+    .hero-tag-num {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 5rem; font-weight: 300; color: rgba(255,255,255,0.12);
+        line-height: 1;
+    }
+    .hero-tag-label {
+        font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+    }
+    .hero-scroll {
+        position: absolute; bottom: 40px; left: 60px;
+        display: flex; align-items: center; gap: 12px;
+        font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+        color: #8a8068; z-index: 2;
+    }
+    .hero-scroll-line {
+        width: 1px; height: 50px; background: var(--terra);
+        animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+        0%, 100% { opacity: 0.4; transform: scaleY(1); }
+        50% { opacity: 1; transform: scaleY(1.2); }
+    }
+    .hero-badge {
+        position: absolute; top: 50%; left: 50%; z-index: 3;
+        transform: translate(-50%, -50%);
+        width: 180px; height: 180px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 50%;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        animation: rotateSlow 30s linear infinite;
+    }
+    .hero-badge-inner {
+        text-align: center;
+        animation: rotateSlow 30s linear infinite reverse;
+    }
+    .hero-badge-inner .brand {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2rem; color: rgba(255,255,255,0.7);
+        letter-spacing: 0.15em; display: block;
+    }
+    .hero-badge-inner small {
+        font-size: 0.45rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.3); display: block; margin-top: 4px;
+    }
+    @keyframes rotateSlow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-strip {
+        background: var(--moss); padding: 16px 0;
+        overflow: hidden; white-space: nowrap;
+    }
+    .marquee-inner {
+        display: inline-flex; gap: 0;
+        animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+        font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.5); padding: 0 40px;
+        display: inline-flex; align-items: center; gap: 40px;
+    }
+    .marquee-item::after { content: '✦'; color: var(--terra); font-size: 0.5rem; }
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION SHARED ── */
+    section { position: relative; }
+    .section-label {
+        font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
+        color: var(--terra); margin-bottom: 16px;
+        display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+        content: ''; width: 30px; height: 1px; background: var(--terra);
+    }
+    .section-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2.5rem, 4vw, 4.5rem);
+        font-weight: 300; line-height: 1.1;
+        color: var(--moss);
+    }
+    .section-title em { font-style: italic; color: var(--umber); }
+
+    /* ── ABOUT / PROPÓSITO ── */
+    .about {
+        display: grid; grid-template-columns: 1fr 1fr;
+        min-height: 80vh;
+    }
+    .about-visual {
+        background: var(--sand);
+        position: relative; overflow: hidden;
+        min-height: 500px;
+    }
+    .about-visual-bg {
+        position: absolute; inset: 0;
+        background: 
+            radial-gradient(ellipse at 30% 70%, rgba(139,94,60,0.12) 0%, transparent 60%),
+            radial-gradient(ellipse at 70% 20%, rgba(59,74,53,0.1) 0%, transparent 60%);
+    }
+    .about-fungal-art {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .about-fungal-art svg { width: 70%; height: 70%; opacity: 0.4; }
+    .about-stats {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        display: grid; grid-template-columns: 1fr 1fr;
+        border-top: 1px solid rgba(139,94,60,0.2);
+    }
+    .stat {
+        padding: 28px 32px;
+        border-right: 1px solid rgba(139,94,60,0.2);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.5rem; font-weight: 300;
+        color: var(--umber); line-height: 1;
+    }
+    .stat-label {
+        font-size: 0.62rem; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--mycelium);
+        margin-top: 6px;
+    }
+    .about-content {
+        padding: 80px 70px;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-body {
+        font-size: 0.9rem; font-weight: 300; line-height: 1.9;
+        color: #5a554e; margin-top: 28px; margin-bottom: 40px;
+    }
+    .about-pillars {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 20px; margin-top: 16px;
+    }
+    .pillar {
+        padding: 20px; border: 1px solid var(--sand);
+        transition: border-color 0.3s, transform 0.3s;
+    }
+    .pillar:hover { border-color: var(--terra); transform: translateY(-4px); }
+    .pillar-icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .pillar-title {
+        font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+        color: var(--moss); margin-bottom: 6px;
+    }
+    .pillar-desc { font-size: 0.78rem; color: #7a756c; font-weight: 300; line-height: 1.6; }
+
+    /* ── PRODUCTO / COLECCIÓN ── */
+    .collection {
+        padding: 100px 60px;
+        background: var(--white);
+    }
+    .collection-header {
+        display: flex; justify-content: space-between;
+        align-items: flex-end; margin-bottom: 60px;
+    }
+    .collection-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+    }
+    .product-card {
+        position: relative; overflow: hidden;
+        background: var(--sand);
+        aspect-ratio: 3/4;
+        cursor: none;
+    }
+    .product-card:first-child { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+    .product-visual {
+        width: 100%; height: 100%;
+        display: flex; align-items: center; justify-content: center;
+        position: relative; overflow: hidden;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .product-card:hover .product-visual { transform: scale(1.04); }
+    .product-bg {
+        position: absolute; inset: 0;
+        transition: opacity 0.6s;
+    }
+    .product-card:nth-child(1) .product-bg {
+        background: linear-gradient(135deg, #c8b8a2 0%, #9e8b76 100%);
+    }
+    .product-card:nth-child(2) .product-bg {
+        background: linear-gradient(135deg, #8b7355 0%, #5c4a35 100%);
+    }
+    .product-card:nth-child(3) .product-bg {
+        background: linear-gradient(135deg, #4a5e44 0%, #2e3b2a 100%);
+    }
+    .product-card:nth-child(4) .product-bg {
+        background: linear-gradient(135deg, #c47b3e 0%, #8b5e3c 100%);
+    }
+    .product-card:nth-child(5) .product-bg {
+        background: linear-gradient(135deg, #6b7c65 0%, #3b4a35 100%);
+    }
+    .product-svg-inner {
+        position: relative; z-index: 1; opacity: 0.3;
+        width: 60%; height: 60%;
+    }
+    .product-overlay {
+        position: absolute; inset: 0; z-index: 2;
+        background: linear-gradient(to top, rgba(20,18,12,0.8) 0%, transparent 50%);
+        opacity: 0; transition: opacity 0.4s;
+        display: flex; flex-direction: column;
+        justify-content: flex-end; padding: 28px;
+    }
+    .product-card:hover .product-overlay { opacity: 1; }
+    .product-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.3rem; color: white; font-weight: 300; letter-spacing: 0.05em;
+    }
+    .product-tag {
+        font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+        color: rgba(255,255,255,0.5); margin-top: 4px;
+    }
+    .product-price {
+        font-size: 0.75rem; color: var(--terra);
+        margin-top: 12px; letter-spacing: 0.1em;
+    }
+    .product-info {
+        position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+        padding: 20px 24px; opacity: 1;
+        background: linear-gradient(to top, rgba(20,18,12,0.6) 0%, transparent 100%);
+        display: flex; flex-direction: column;
+    }
+    .product-card:hover .product-info { opacity: 0; }
+
+    /* ── PROCESO ── */
+    .process {
+        padding: 100px 60px;
+        background: var(--moss);
+        position: relative; overflow: hidden;
+    }
+    .process::before {
+        content: 'MANTO';
+        position: absolute; top: -20px; left: -20px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 20vw; font-weight: 300;
+        color: rgba(255,255,255,0.03);
+        line-height: 1; letter-spacing: -0.02em;
+        pointer-events: none; user-select: none;
+    }
+    .process .section-title { color: var(--cream); }
+    .process .section-label { color: var(--terra); }
+    .process-header { margin-bottom: 70px; max-width: 500px; }
+    .process-steps {
+        display: grid; grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        position: relative;
+    }
+    .process-steps::before {
+        content: '';
+        position: absolute; top: 32px; left: 10%; right: 10%;
+        height: 1px; background: rgba(255,255,255,0.15);
+        z-index: 0;
+    }
+    .step {
+        padding: 0 20px; position: relative; z-index: 1;
+        opacity: 0; transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    .step.visible { opacity: 1; transform: translateY(0); }
+    .step-num-wrap {
+        width: 64px; height: 64px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 28px;
+        background: rgba(255,255,255,0.04);
+        transition: background 0.3s, border-color 0.3s;
+    }
+    .step:hover .step-num-wrap {
+        background: var(--terra);
+        border-color: var(--terra);
+    }
+    .step-num {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.4rem; color: rgba(255,255,255,0.5);
+        font-weight: 300;
+    }
+    .step:hover .step-num { color: white; }
+    .step-title {
+        font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+        color: rgba(255,255,255,0.7); margin-bottom: 10px;
+    }
+    .step-desc {
+        font-size: 0.78rem; color: rgba(255,255,255,0.35);
+        line-height: 1.7; font-weight: 300;
+    }
+
+    /* ── FODA ── */
+    .foda {
+        padding: 100px 60px;
+        background: var(--cream);
+    }
+    .foda-header { text-align: center; margin-bottom: 70px; }
+    .foda-header .section-label { justify-content: center; }
+    .foda-header .section-label::before { display: none; }
+    .foda-grid {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 2px;
+    }
+    .foda-card {
+        padding: 48px 52px;
+        position: relative; overflow: hidden;
+        transition: transform 0.3s;
+    }
+    .foda-card:hover { transform: translateY(-4px) translateX(-2px); }
+    .foda-card:nth-child(1) { background: var(--moss); }
+    .foda-card:nth-child(2) { background: var(--umber); }
+    .foda-card:nth-child(3) { background: var(--sand); }
+    .foda-card:nth-child(4) { background: var(--terra); }
+    .foda-letter {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 8rem; font-weight: 300;
+        position: absolute; top: -20px; right: 30px;
+        opacity: 0.08; line-height: 1;
+        color: white;
+    }
+    .foda-card:nth-child(3) .foda-letter,
+    .foda-card:nth-child(3) .foda-word,
+    .foda-card:nth-child(3) .foda-items li { color: var(--dark); }
+    .foda-card:nth-child(3) .foda-letter { color: var(--dark); }
+    .foda-word {
+        font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.5); margin-bottom: 24px;
+    }
+    .foda-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2rem; font-weight: 300;
+        color: white; margin-bottom: 24px;
+    }
+    .foda-card:nth-child(3) .foda-title { color: var(--dark); }
+    .foda-items { list-style: none; }
+    .foda-items li {
+        font-size: 0.8rem; color: rgba(255,255,255,0.7);
+        padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-weight: 300; letter-spacing: 0.02em;
+        display: flex; align-items: flex-start; gap: 10px;
+    }
+    .foda-items li::before {
+        content: '→'; color: rgba(255,255,255,0.3);
+        flex-shrink: 0; margin-top: 1px;
+    }
+    .foda-card:nth-child(3) .foda-items li { color: var(--dark); opacity: 0.8; }
+    .foda-card:nth-child(3) .foda-items li::before { color: var(--umber); }
+    .foda-card:nth-child(4) .foda-word { color: rgba(255,255,255,0.6); }
+
+    /* ── BUYER PERSONA ── */
+    .persona {
+        padding: 100px 60px;
+        background: var(--white);
+        display: grid; grid-template-columns: 1fr 1.2fr;
+        gap: 80px; align-items: center;
+    }
+    .persona-visual {
+        position: relative;
+    }
+    .persona-circle {
+        width: 380px; height: 380px; border-radius: 50%;
+        background: radial-gradient(ellipse at 35% 35%, var(--sand) 0%, var(--mycelium) 100%);
+        position: relative; margin: 0 auto;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
+    }
+    .persona-circle::after {
+        content: '';
+        position: absolute; inset: -2px;
+        border-radius: 50%;
+        border: 1px solid var(--terra);
+        opacity: 0.4;
+    }
+    .persona-initial {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 10rem; font-weight: 300;
+        color: rgba(255,255,255,0.2);
+        line-height: 1;
+    }
+    .persona-float {
+        position: absolute;
+        background: var(--white);
+        padding: 12px 18px;
+        border-left: 2px solid var(--terra);
+        font-size: 0.72rem;
+    }
+    .persona-float-1 { top: 20px; right: -20px; }
+    .persona-float-2 { bottom: 60px; left: -30px; }
+    .persona-float span {
+        display: block; color: var(--terra);
+        font-size: 0.6rem; letter-spacing: 0.15em;
+        text-transform: uppercase; margin-bottom: 3px;
+    }
+    .persona-content { }
+    .persona-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 3.5rem; font-weight: 300;
+        color: var(--moss); margin: 16px 0 8px;
+    }
+    .persona-age {
+        font-size: 0.75rem; letter-spacing: 0.2em;
+        color: var(--mycelium); margin-bottom: 28px;
+        text-transform: uppercase;
+    }
+    .persona-desc {
+        font-size: 0.88rem; line-height: 1.8; color: #5a554e;
+        font-weight: 300; margin-bottom: 32px;
+    }
+    .persona-tags {
+        display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .tag {
+        padding: 6px 14px; border: 1px solid var(--sand);
+        font-size: 0.65rem; letter-spacing: 0.15em;
+        text-transform: uppercase; color: var(--moss);
+        transition: background 0.3s, color 0.3s;
+    }
+    .tag:hover { background: var(--moss); color: var(--cream); }
+
+    /* ── CUSTOMER JOURNEY ── */
+    .journey {
+        padding: 100px 60px;
+        background: var(--cream);
+    }
+    .journey-header { text-align: center; max-width: 600px; margin: 0 auto 70px; }
+    .journey-header .section-label { justify-content: center; }
+    .journey-header .section-label::before { display: none; }
+    .journey-track {
+        position: relative;
+        display: grid; grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+    }
+    .journey-track::before {
+        content: '';
+        position: absolute; top: 28px; left: 5%; right: 5%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--terra), var(--terra), transparent);
+        z-index: 0;
+    }
+    .journey-step {
+        padding: 0 16px; text-align: center; position: relative; z-index: 1;
+        opacity: 0; transform: translateY(16px);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    .journey-step.visible { opacity: 1; transform: translateY(0); }
+    .journey-dot {
+        width: 56px; height: 56px; border-radius: 50%;
+        background: var(--cream); border: 1px solid var(--terra);
+        margin: 0 auto 24px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.3rem;
+        transition: background 0.3s;
+    }
+    .journey-step:hover .journey-dot { background: var(--terra); }
+    .journey-stage {
+        font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+        color: var(--terra); margin-bottom: 8px;
+    }
+    .journey-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.3rem; color: var(--moss); margin-bottom: 12px;
+    }
+    .journey-desc {
+        font-size: 0.75rem; color: #7a756c;
+        line-height: 1.7; font-weight: 300;
+    }
+
+    /* ── GROWTH ── */
+    .growth {
+        padding: 100px 60px;
+        background: var(--dark);
+        position: relative; overflow: hidden;
+    }
+    .growth::before {
+        content: '';
+        position: absolute; top: -50%; left: -20%;
+        width: 600px; height: 600px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(196,123,62,0.06) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .growth-header { margin-bottom: 70px; max-width: 550px; }
+    .growth-header .section-title { color: var(--cream); }
+    .growth-header .section-label { color: var(--terra); }
+    .growth-sub {
+        font-size: 0.85rem; color: rgba(255,255,255,0.35);
+        font-weight: 300; line-height: 1.8; margin-top: 20px;
+    }
+    .growth-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 1px; background: rgba(255,255,255,0.05);
+    }
+    .growth-card {
+        padding: 40px 36px;
+        background: var(--dark);
+        transition: background 0.3s;
+    }
+    .growth-card:hover { background: #26261e; }
+    .growth-icon {
+        width: 48px; height: 48px;
+        border: 1px solid rgba(196,123,62,0.3);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem; margin-bottom: 24px;
+        transition: border-color 0.3s, background 0.3s;
+    }
+    .growth-card:hover .growth-icon {
+        border-color: var(--terra);
+        background: rgba(196,123,62,0.1);
+    }
+    .growth-card-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.4rem; color: var(--cream); margin-bottom: 12px; font-weight: 300;
+    }
+    .growth-card-desc {
+        font-size: 0.78rem; color: rgba(255,255,255,0.35);
+        line-height: 1.7; font-weight: 300;
+    }
+    .growth-metrics {
+        margin-top: 60px; padding-top: 60px;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+    }
+    .metric { }
+    .metric-label {
+        font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.25); margin-bottom: 10px;
+    }
+    .metric-value {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.8rem; font-weight: 300;
+        color: var(--terra); line-height: 1;
+    }
+    .metric-desc {
+        font-size: 0.72rem; color: rgba(255,255,255,0.25);
+        margin-top: 6px; font-weight: 300;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+        padding: 120px 60px;
+        background: var(--sand);
+        text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at 50% 50%, rgba(196,123,62,0.08) 0%, transparent 70%);
+    }
+    .cta-section .section-label { justify-content: center; }
+    .cta-section .section-label::before { display: none; }
+    .cta-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(3rem, 5vw, 6rem);
+        font-weight: 300; color: var(--moss); line-height: 1.1;
+        margin: 20px 0 36px;
+    }
+    .cta-title em { font-style: italic; color: var(--umber); }
+    .cta-desc {
+        font-size: 0.9rem; color: #7a756c; font-weight: 300;
+        line-height: 1.8; max-width: 480px; margin: 0 auto 48px;
+    }
+    .cta-buttons { display: flex; gap: 20px; justify-content: center; }
+
+    /* ── FOOTER ── */
+    footer {
+        background: var(--dark); padding: 70px 60px 40px;
+    }
+    .footer-top {
+        display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 60px; margin-bottom: 60px;
+        padding-bottom: 60px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-brand { }
+    .footer-logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2rem; letter-spacing: 0.3em;
+        color: var(--cream); text-decoration: none;
+    }
+    .footer-tagline {
+        font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: var(--terra); margin-top: 4px; margin-bottom: 20px;
+    }
+    .footer-brand p {
+        font-size: 0.78rem; color: rgba(255,255,255,0.25);
+        line-height: 1.8; font-weight: 300; max-width: 260px;
+    }
+    .footer-col h5 {
+        font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.4); margin-bottom: 24px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+        margin-bottom: 12px;
+    }
+    .footer-col ul li a {
+        font-size: 0.78rem; color: rgba(255,255,255,0.25);
+        text-decoration: none; font-weight: 300;
+        transition: color 0.3s;
+    }
+    .footer-col ul li a:hover { color: var(--terra); }
+    .footer-bottom {
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy {
+        font-size: 0.65rem; color: rgba(255,255,255,0.15);
+        letter-spacing: 0.1em;
+    }
+    .footer-mission {
+        font-size: 0.65rem; color: rgba(255,255,255,0.15);
+        font-style: italic; max-width: 400px; text-align: right;
+        line-height: 1.6;
+    }
+
+    /* ── ANIMATIONS ON SCROLL ── */
+    .fade-up {
+        opacity: 0; transform: translateY(30px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Decorative lines ── */
+    .deco-line {
+        width: 1px; background: var(--sand);
+        position: absolute;
+    }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#" class="nav-logo">MANTO</a>
+    <ul class="nav-links">
+        <li><a href="#about">Propósito</a></li>
+        <li><a href="#collection">Colección</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#journey">Experiencia</a></li>
+        <li><a href="#growth">Estrategia</a></li>
+        <li><a href="#contact" class="nav-cta">Cultiva tu Manto</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-eyebrow">Moda biofabricada · Colombia</div>
+        <h1 class="hero-title">
+            Piezas<br>
+            <em>únicas</em><br>
+            con<br>propósito
+        </h1>
+        <p class="hero-sub">
+            Bolsos cultivados a partir de cuero de micelio biodegradable, 
+            elaborados artesanalmente por manos colombianas. 
+            Lujo que respeta la vida.
+        </p>
+        <div class="hero-btns">
+            <a href="#collection" class="btn-primary">Explorar Colección</a>
+            <a href="#proceso" class="btn-ghost">Conoce el proceso</a>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <div class="hero-mycelium">
+            <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="rgba(255,255,255,0.6)" stroke-width="0.8" fill="none">
+                    <line x1="300" y1="300" x2="300" y2="100"/>
+                    <line x1="300" y1="100" x2="220" y2="60"/>
+                    <line x1="300" y1="100" x2="380" y2="50"/>
+                    <line x1="220" y1="60" x2="160" y2="30"/>
+                    <line x1="220" y1="60" x2="210" y2="20"/>
+                    <line x1="380" y1="50" x2="430" y2="20"/>
+                    <line x1="380" y1="50" x2="440" y2="70"/>
+                    <line x1="300" y1="300" x2="140" y2="220"/>
+                    <line x1="140" y1="220" x2="80" y2="180"/>
+                    <line x1="80" y1="180" x2="30" y2="150"/>
+                    <line x1="80" y1="180" x2="40" y2="200"/>
+                    <line x1="140" y1="220" x2="100" y2="260"/>
+                    <line x1="140" y1="220" x2="90" y2="240"/>
+                    <line x1="300" y1="300" x2="460" y2="210"/>
+                    <line x1="460" y1="210" x2="530" y2="170"/>
+                    <line x1="530" y1="170" x2="570" y2="140"/>
+                    <line x1="530" y1="170" x2="560" y2="200"/>
+                    <line x1="460" y1="210" x2="500" y2="260"/>
+                    <line x1="300" y1="300" x2="180" y2="420"/>
+                    <line x1="180" y1="420" x2="100" y2="460"/>
+                    <line x1="100" y1="460" x2="60" y2="490"/>
+                    <line x1="100" y1="460" x2="70" y2="440"/>
+                    <line x1="180" y1="420" x2="130" y2="500"/>
+                    <line x1="300" y1="300" x2="420" y2="430"/>
+                    <line x1="420" y1="430" x2="500" y2="470"/>
+                    <line x1="500" y1="470" x2="550" y2="500"/>
+                    <line x1="500" y1="470" x2="540" y2="450"/>
+                    <line x1="420" y1="430" x2="450" y2="510"/>
+                    <line x1="300" y1="300" x2="300" y2="460"/>
+                    <line x1="300" y1="460" x2="270" y2="520"/>
+                    <line x1="300" y1="460" x2="330" y2="530"/>
+                </g>
+                <g fill="rgba(196,123,62,0.5)">
+                    <circle cx="300" cy="300" r="5"/>
+                    <circle cx="300" cy="100" r="3"/>
+                    <circle cx="220" cy="60" r="2.5"/>
+                    <circle cx="380" cy="50" r="2.5"/>
+                    <circle cx="140" cy="220" r="3"/>
+                    <circle cx="80" cy="180" r="2.5"/>
+                    <circle cx="460" cy="210" r="3"/>
+                    <circle cx="530" cy="170" r="2.5"/>
+                    <circle cx="180" cy="420" r="3"/>
+                    <circle cx="100" cy="460" r="2.5"/>
+                    <circle cx="420" cy="430" r="3"/>
+                    <circle cx="500" cy="470" r="2.5"/>
+                    <circle cx="300" cy="460" r="3"/>
+                </g>
+                <ellipse cx="300" cy="295" rx="60" ry="30" fill="rgba(196,123,62,0.15)" stroke="rgba(196,123,62,0.3)" stroke-width="1"/>
+                <path d="M270 295 Q300 260 330 295" fill="rgba(196,123,62,0.1)" stroke="rgba(196,123,62,0.25)" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="hero-badge">
+            <div class="hero-badge-inner">
+                <span class="brand">M</span>
+                <small>Cuero de Micelio</small>
+            </div>
+        </div>
+
+        <div class="hero-tag">
+            <div class="hero-tag-num">100%</div>
+            <div class="hero-tag-label">Biodegradable</div>
+        </div>
+    </div>
+
+    <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Descubrir</span>
+    </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+    <div class="marquee-inner">
+        <span class="marquee-item">Cuero de Hongos</span>
+        <span class="marquee-item">Artesanía Colombiana</span>
+        <span class="marquee-item">Diseño Sostenible</span>
+        <span class="marquee-item">Lujo con Propósito</span>
+        <span class="marquee-item">Piezas Únicas</span>
+        <span class="marquee-item">Micelio Biodegradable</span>
+        <span class="marquee-item">Moda Biofabricada</span>
+        <span class="marquee-item">Cuero de Hongos</span>
+        <span class="marquee-item">Artesanía Colombiana</span>
+        <span class="marquee-item">Diseño Sostenible</span>
+        <span class="marquee-item">Lujo con Propósito</span>
+        <span class="marquee-item">Piezas Únicas</span>
+        <span class="marquee-item">Micelio Biodegradable</span>
+        <span class="marquee-item">Moda Biofabricada</span>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="about-visual">
+        <div class="about-visual-bg"></div>
+        <div class="about-fungal-art">
+            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" stroke="var(--umber)" stroke-width="1.5">
+                    <path d="M120 200 Q200 100 280 200" stroke-width="2"/>
+                    <path d="M130 205 Q200 115 270 205"/>
+                    <path d="M145 210 Q200 130 255 210"/>
+                    <path d="M160 215 Q200 150 240 215"/>
+                    <line x1="200" y1="200" x2="200" y2="260"/>
+                    <line x1="180" y1="202" x2="192" y2="260"/>
+                    <line x1="220" y1="202" x2="208" y2="260"/>
+                    <line x1="162" y1="210" x2="188" y2="260"/>
+                    <line x1="238" y1="210" x2="212" y2="260"/>
+                    <path d="M188 260 Q185 300 192 340" stroke-width="1.5"/>
+                    <path d="M212 260 Q215 300 208 340"/>
+                    <path d="M192 340 Q170 360 140 380"/>
+                    <path d="M192 340 Q180 370 160 390"/>
+                    <path d="M200 342 Q200 370 195 395"/>
+                    <path d="M208 340 Q220 365 240 385"/>
+                    <path d="M208 340 Q230 360 260 375"/>
+                    <path d="M140 380 Q120 385 100 378"/>
+                    <path d="M160 390 Q148 395 135 390"/>
+                    <path d="M240 385 Q260 388 278 380"/>
+                    <path d="M260 375 Q278 378 295 370"/>
+                </g>
+                <g fill="rgba(139,94,60,0.4)">
+                    <circle cx="100" cy="150" r="3"/>
+                    <circle cx="310" cy="130" r="2.5"/>
+                    <circle cx="85" cy="180" r="2"/>
+                    <circle cx="320" cy="165" r="3"/>
+                    <circle cx="95" cy="220" r="2"/>
+                    <circle cx="305" cy="195" r="2.5"/>
+                    <circle cx="150" cy="100" r="2"/>
+                    <circle cx="260" cy="95" r="3"/>
+                </g>
+            </svg>
+        </div>
+        <div class="about-stats">
+            <div class="stat">
+                <div class="stat-num">0%</div>
+                <div class="stat-label">Cuero Animal</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">∞</div>
+                <div class="stat-label">Posibilidades</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-content fade-up">
+        <div class="section-label">Nuestra Esencia</div>
+        <h2 class="section-title">No solo<br>vendemos bolsos.<br><em>Los cultivamos.</em></h2>
+        <p class="about-body">
+            Manto nace de la convicción de que el lujo no tiene por qué costarle al planeta. 
+            Usando biotecnología de punta y el saber artesanal colombiano, cultivamos cuero de 
+            micelio — el tejido vivo de los hongos — para crear accesorios que son tan únicos 
+            como la persona que los lleva.
+        </p>
+
+        <div class="about-pillars">
+            <div class="pillar">
+                <div class="pillar-icon">🍄</div>
+                <div class="pillar-title">Cuero de Micelio</div>
+                <div class="pillar-desc">Material biodegradable cultivado de hongos, libre de crueldad animal.</div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon">🤲</div>
+                <div class="pillar-title">Artesanía Colombiana</div>
+                <div class="pillar-desc">Cada pieza elaborada a mano por artesanos colombianos con generaciones de oficio.</div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon">✦</div>
+                <div class="pillar-title">Exclusividad Limitada</div>
+                <div class="pillar-desc">Producciones limitadas y personalización total. Tu bolso, cultivado para ti.</div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon">🌿</div>
+                <div class="pillar-title">Lujo Consciente</div>
+                <div class="pillar-desc">Premium sin comprometer valores. Elegancia que respeta el medio ambiente.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COLECCIÓN -->
+<section class="collection" id="collection">
+    <div class="collection-header fade-up">
+        <div>
+            <div class="section-label">Líneas de Producto</div>
+            <h2 class="section-title">La <em>Colección</em></h2>
+        </div>
+        <a href="#contact" class="btn-ghost">Ver todo →</a>
+    </div>
+
+    <div class="collection-grid">
+        <div class="product-card">
+            <div class="product-visual">
+                <div class="product-bg"></div>
+                <svg class="product-svg-inner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="white" stroke-width="1.5" fill="none">
+                        <rect x="40" y="70" width="120" height="90" rx="8"/>
+                        <path d="M60 70 Q100 45 140 70"/>
+                        <line x1="40" y1="110" x2="160" y2="110"/>
+                        <rect x="85" y="100" width="30" height="20" rx="4"/>
+                    </g>
+                </svg>
+                <div class="product-overlay">
+                    <div class="product-name">Bolso Estándar</div>
+                    <div class="product-tag">Listo para entrega</div>
+                    <div class="product-price">Diseño atemporal</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name" style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:rgba(255,255,255,0.8);font-weight:300;">Línea Estándar</div>
+                    <div class="product-tag" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Cuero de Micelio</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-visual">
+                <div class="product-bg"></div>
+                <svg class="product-svg-inner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="white" stroke-width="1.5" fill="none">
+                        <path d="M60 140 Q50 80 100 60 Q150 80 140 140 Z"/>
+                        <line x1="80" y1="60" x2="80" y2="40"/>
+                        <line x1="120" y1="60" x2="120" y2="40"/>
+                        <path d="M80 40 Q100 30 120 40"/>
+                        <circle cx="100" cy="110" r="12"/>
+                    </g>
+                </svg>
+                <div class="product-overlay">
+                    <div class="product-name">Bolso Personalizado</div>
+                    <div class="product-tag">Bajo pedido</div>
+                    <div class="product-price">Cultivado para ti</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name" style="font-family:'Cormorant Garamond',serif;color:rgba(255,255,255,0.8);font-weight:300;">Personalizado</div>
+                    <div class="product-tag" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Diseñado para ti</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-visual">
+                <div class="product-bg"></div>
+                <svg class="product-svg-inner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="white" stroke-width="1.5" fill="none">
+                        <ellipse cx="100" cy="115" rx="55" ry="45"/>
+                        <path d="M75 115 Q100 90 125 115"/>
+                        <line x1="100" y1="70" x2="100" y2="50"/>
+                        <circle cx="100" cy="45" r="6"/>
+                        <line x1="60" y1="115" x2="140" y2="115"/>
+                    </g>
+                </svg>
+                <div class="product-overlay">
+                    <div class="product-name">Edición Limitada</div>
+                    <div class="product-tag">Colaboraciones exclusivas</div>
+                    <div class="product-price">Pieza de colección</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name" style="font-family:'Cormorant Garamond',serif;color:rgba(255,255,255,0.8);font-weight:300;">Ed. Limitada</div>
+                    <div class="product-tag" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Exclusivo</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-visual">
+                <div class="product-bg"></div>
+                <svg class="product-svg-inner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="white" stroke-width="1.5" fill="none">
+                        <rect x="45" y="75" width="110" height="80" rx="4"/>
+                        <rect x="55" y="85" width="40" height="25" rx="2"/>
+                        <rect x="105" y="85" width="40" height="25" rx="2"/>
+                        <line x1="45" y1="120" x2="155" y2="120"/>
+                        <path d="M70 75 Q70 58 100 58 Q130 58 130 75"/>
+                    </g>
+                </svg>
+                <div class="product-overlay">
+                    <div class="product-name">Línea Corporativa</div>
+                    <div class="product-tag">Regalos empresariales</div>
+                    <div class="product-price">Sostenible & Premium</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name" style="font-family:'Cormorant Garamond',serif;color:rgba(255,255,255,0.8);font-weight:300;">Corporativo</div>
+                    <div class="product-tag" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">B2B Sostenible</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-visual">
+                <div class="product-bg"></div>
+                <svg class="product-svg-inner" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="white" stroke-width="1.5" fill="none">
+                        <path d="M80 160 Q60 130 65 100 Q70 70 100 65 Q130 70 135 100 Q140 130 120 160"/>
+                        <path d="M80 160 Q100 150 120 160"/>
+                        <line x1="100" y1="65" x2="100" y2="45"/>
+                        <path d="M85 45 Q100 38 115 45"/>
+                    </g>
+                </svg>
+                <div class="product-overlay">
+                    <div class="product-name">Accesorios</div>
+                    <div class="product-tag">Próximamente</div>
+                    <div class="product-price">Nueva línea</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-name" style="font-family:'Cormorant Garamond',serif;color:rgba(255,255,255,0.8);font-weight:300;">Accesorios</div>
+                    <div class="product-tag" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Próximamente</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESO -->
+<section class="process" id="proceso">
+    <div class="process-header fade-up">
+        <div class="section-label">Cómo se hace</div>
+        <h2 class="section-title">El <em>Proceso</em><br>de Cultivar</h2>
+    </div>
+
+    <div class="process-steps">
+        <div class="step" style="transition-delay:0.1s">
+            <div class="step-num-wrap"><div class="step-num">01</div></div>
+            <div class="step-title">Selección del Micelio</div>
+            <div class="step-desc">Elegimos cepas específicas de hongos colombianos con las propiedades ideales para crear material de alta durabilidad.</div>
+        </div>
+        <div class="step" style="transition-delay:0.2s">
+            <div class="step-num-wrap"><div class="step-num">02</div></div>
+            <div class="step-title">Cultivo Controlado</div>
+            <div class="step-desc">El micelio crece sobre sustratos naturales en condiciones controladas hasta formar láminas de material biocompuesto.</div>
+        </div>
+        <div class="step" style="transition-delay:0.3s">
+            <div class="step-num-wrap"><div class="step-num">03</div></div>
+            <div class="step-title">Procesamiento</div>
+            <div class="step-desc">Las láminas se procesan y tratan para lograr la textura, flexibilidad y resistencia del cuero premium.</div>
+        </div>
+        <div class="step" style="transition-delay:0.4s">
+            <div class="step-num-wrap"><div class="step-num">04</div></div>
+            <div class="step-title">Diseño Artesanal</div>
+            <div class="step-desc">Artesanos colombianos cortan, cosen y ensamblan cada pieza a mano, integrando técnicas tradicionales.</div>
+        </div>
+        <div class="step" style="transition-delay:0.5s">
+            <div class="step-num-wrap"><div class="step-num">05</div></div>
+            <div class="step-title">Tu Manto</div>
+            <div class="step-desc">La pieza terminada viaja hasta ti, lista para ser parte de tu historia — única, consciente, viva.</div>
+        </div>
+    </div>
+</section>
+
+<!-- FODA -->
+<section class="foda" id="foda">
+    <div class="foda-header fade-up">
+        <div class="section-label">Análisis Estratégico</div>
+        <h2 class="section-title">Análisis <em>FODA</em></h2>
+    </div>
+
+    <div class="foda-grid">
+        <div class="foda-card">
+            <div class="foda-letter">F</div>
+            <div class="foda-word">Strengths</div>
+            <div class="foda-title">Fortalezas</div>
+            <ul class="foda-items">
+                <li>Producto innovador y poco común en Colombia</li>
+                <li>Uso de cuero de micelio biodegradable</li>
+                <li>Integración de artesanos colombianos</li>
+                <li>Alta diferenciación frente a marcas tradicionales</li>
+            </ul>
+        </div>
+        <div class="foda-card">
+            <div class="foda-letter">O</div>
+            <div class="foda-word">Opportunities</div>
+            <div class="foda-title">Oportunidades</div>
+            <ul class="foda-items">
+                <li>Crecimiento del mercado sostenible</li>
+                <li>Tendencia global hacia moda ética</li>
+                <li>Aumento del consumo vegano y consciente</li>
+                <li>Posibilidad de exportación internacional</li>
+            </ul>
+        </div>
+        <div class="foda-card">
+            <div class="foda-letter">D</div>
+            <div class="foda-word">Weaknesses</div>
+            <div class="foda-title">Debilidades</div>
+            <ul class="foda-items">
+                <li>Costos de producción elevados</li>
+                <li>Tiempo largo de producción personalizada</li>
+                <li>Tecnología nueva en Colombia</li>
+                <li>Público objetivo reducido por precios premium</li>
+            </ul>
+        </div>
+        <div class="foda-card">
+            <div class="foda-letter">A</div>
+            <div class="foda-word">Threats</div>
+            <div class="foda-title">Amenazas</div>
+            <ul class="foda-items">
+                <li>Competencia internacional</li>
+                <li>Desconfianza sobre durabilidad del material</li>
+                <li>Aparición de productos imitadores</li>
+                <li>Cambios regulatorios ambientales</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- BUYER PERSONA -->
+<section class="persona" id="persona">
+    <div class="persona-visual fade-up">
+        <div class="persona-circle">
+            <div class="persona-initial">C</div>
+        </div>
+        <div class="persona-float persona-float-1">
+            <span>Plataformas</span>
+            Instagram · Pinterest · TikTok
+        </div>
+        <div class="persona-float persona-float-2">
+            <span>Rol</span>
+            Directora de Marca
+        </div>
+    </div>
+
+    <div class="persona-content fade-up">
+        <div class="section-label">Buyer Persona Principal</div>
+        <div class="persona-name">Camila</div>
+        <div class="persona-age">32 años · Bogotá D.C.</div>
+        <p class="persona-desc">
+            Profesional con ingresos altos y un estilo de vida enfocado en el consumo consciente. 
+            Busca marcas que combinen exclusividad, diseño e impacto positivo. Le apasiona la moda 
+            premium y sigue tendencias relacionadas con lujo, innovación y sostenibilidad. Valora 
+            lo artesanal y las marcas con propósito social — proyecta una imagen sofisticada sin 
+            renunciar a sus principios éticos.
+        </p>
+        <div class="persona-tags">
+            <span class="tag">Moda Sostenible</span>
+            <span class="tag">Lujo Premium</span>
+            <span class="tag">Consumo Consciente</span>
+            <span class="tag">Veganismo</span>
+            <span class="tag">Diseño Artesanal</span>
+            <span class="tag">Innovación</span>
+            <span class="tag">Exclusividad</span>
+        </div>
+    </div>
+</section>
+
+<!-- CUSTOMER JOURNEY -->
+<section class="journey" id="journey">
+    <div class="journey-header fade-up">
+        <div class="section-label">Customer Journey</div>
+        <h2 class="section-title">El <em>Camino</em> de<br>Tu Experiencia</h2>
+    </div>
+
+    <div class="journey-track">
+        <div class="journey-step">
+            <div class="journey-dot">🔍</div>
+            <div class="journey-stage">01 · Awareness</div>
+            <div class="journey-name">Descubrimiento</div>
+            <div class="journey-desc">Redes sociales, influencers y SEO revelan Manto. Videos del proceso de cultivo despiertan curiosidad.</div>
+        </div>
+        <div class="journey-step">
+            <div class="journey-dot">⚖️</div>
+            <div class="journey-stage">02 · Consideration</div>
+            <div class="journey-name">Evaluación</div>
+            <div class="journey-desc">El cliente compara opciones, explora el catálogo y consulta beneficios ambientales via email marketing y web.</div>
+        </div>
+        <div class="journey-step">
+            <div class="journey-dot">🛍️</div>
+            <div class="journey-stage">03 · Purchase</div>
+            <div class="journey-name">Compra</div>
+            <div class="journey-desc">Adquisición en tienda online, Instagram Shopping o WhatsApp Business con acompañamiento personalizado.</div>
+        </div>
+        <div class="journey-step">
+            <div class="journey-dot">💚</div>
+            <div class="journey-stage">04 · Retention</div>
+            <div class="journey-name">Fidelización</div>
+            <div class="journey-desc">Email marketing, acceso anticipado a ediciones limitadas y contenido exclusivo mantienen la relación activa.</div>
+        </div>
+        <div class="journey-step">
+            <div class="journey-dot">✨</div>
+            <div class="journey-stage">05 · Advocacy</div>
+            <div class="journey-name">Recomendación</div>
+            <div class="journey-desc">Clientes felices se convierten en embajadores. Programa de referidos y UGC impulsan el crecimiento orgánico.</div>
+        </div>
+    </div>
+</section>
+
+<!-- GROWTH MARKETING -->
+<section class="growth" id="growth">
+    <div class="growth-header fade-up">
+        <div class="section-label">Estrategia Digital</div>
+        <h2 class="section-title">Growth<br><em>Marketing</em></h2>
+        <p class="growth-sub">
+            Crecimiento basado en datos, experimentación constante y la filosofía de Growth Hacking de Sean Ellis. 
+            Cada decisión, medida. Cada experimento, aprendizaje.
+        </p>
+    </div>
+
+    <div class="growth-grid fade-up">
+        <div class="growth-card">
+            <div class="growth-icon">📊</div>
+            <div class="growth-card-title">A/B Testing</div>
+            <div class="growth-card-desc">Pruebas en campañas de email marketing con asuntos de lujo sostenible, exclusividad y moda consciente para maximizar tasas de apertura.</div>
+        </div>
+        <div class="growth-card">
+            <div class="growth-icon">🖥️</div>
+            <div class="growth-card-title">Landing Pages</div>
+            <div class="growth-card-desc">Dos versiones: una enfocada en diseño premium y exclusividad, otra en impacto ambiental. Datos dictan el ganador.</div>
+        </div>
+        <div class="growth-card">
+            <div class="growth-icon">🤝</div>
+            <div class="growth-card-title">Programa Referidos</div>
+            <div class="growth-card-desc">Clientes actuales recomiendan la marca y reciben beneficios exclusivos. Marketing boca a boca escalable y orgánico.</div>
+        </div>
+        <div class="growth-card">
+            <div class="growth-icon">🎬</div>
+            <div class="growth-card-title">Contenido TikTok & Reels</div>
+            <div class="growth-card-desc">Proceso artesanal y biotecnológico en formato video. Engagement auténtico con consumidores jóvenes interesados en innovación.</div>
+        </div>
+        <div class="growth-card">
+            <div class="growth-icon">🎯</div>
+            <div class="growth-card-title">Remarketing</div>
+            <div class="growth-card-desc">Anuncios personalizados dirigidos a usuarios que visitaron la web sin convertir. Recuperación de oportunidades perdidas.</div>
+        </div>
+        <div class="growth-card">
+            <div class="growth-icon">💰</div>
+            <div class="growth-card-title">PPC & SEM</div>
+            <div class="growth-card-desc">Google Ads, Instagram y Pinterest Ads. Presupuesto de $800K–$1.5M COP/mes. Keywords: "bolsos veganos Colombia", "cuero ecológico".</div>
+        </div>
+    </div>
+
+    <div class="growth-metrics fade-up">
+        <div class="metric">
+            <div class="metric-label">Métrica Principal</div>
+            <div class="metric-value">CAC</div>
+            <div class="metric-desc">Costo de adquisición de clientes monitoreado constantemente</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Valor del Cliente</div>
+            <div class="metric-value">LTV</div>
+            <div class="metric-desc">Valor económico generado por cada consumidor a largo plazo</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Retención</div>
+            <div class="metric-value">Churn</div>
+            <div class="metric-desc">Tasa de abandono para identificar clientes en riesgo de fuga</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Conversión Estimada</div>
+            <div class="metric-value">3 mo.</div>
+            <div class="metric-desc">Duración mínima de campaña SEM con optimizaciones continuas</div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section" id="contact">
+    <div class="section-label fade-up">Reserva tu pieza</div>
+    <h2 class="cta-title fade-up">
+        Cultiva<br>tu <em>Manto</em>
+    </h2>
+    <p class="cta-desc fade-up">
+        Cada bolso nace contigo en mente. Diseñado a tu medida, 
+        cultivado con propósito, entregado con exclusividad. 
+        Únete a la lista de clientes que ya están transformando 
+        la forma de consumir moda.
+    </p>
+    <div class="cta-buttons fade-up">
+        <a href="#" class="btn-primary">Diseña tu Bolso Único</a>
+        <a href="#" class="btn-ghost">Únete a la Lista Exclusiva</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <a href="#" class="footer-logo">MANTO</a>
+            <div class="footer-tagline">Piezas Únicas con Propósito</div>
+            <p>Cuero de Hongos · Artesanía Colombiana · Diseño Sostenible. Biofabricado en Colombia para el mundo.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Colección</h5>
+            <ul>
+                <li><a href="#">Bolsos Estándar</a></li>
+                <li><a href="#">Personalizados</a></li>
+                <li><a href="#">Ediciones Limitadas</a></li>
+                <li><a href="#">Línea Corporativa</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Marca</h5>
+            <ul>
+                <li><a href="#">Nuestra Historia</a></li>
+                <li><a href="#">El Proceso</a></li>
+                <li><a href="#">Sostenibilidad</a></li>
+                <li><a href="#">Artesanos</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Contacto</h5>
+            <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Pinterest</a></li>
+                <li><a href="#">TikTok</a></li>
+                <li><a href="#">WhatsApp</a></li>
+                <li><a href="#">Newsletter</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-copy">© 2026 Manto · Universidad El Bosque · Digital Marketing 2026-3</div>
+        <div class="footer-mission">"Ser la primera marca colombiana líder en moda biofabricada, reconocida internacionalmente por transformar la industria del lujo."</div>
+    </div>
+</footer>
+
+<script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animate() {
+        cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+        rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(animate);
+    })();
+
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up, .step, .journey-step').forEach(el => observer.observe(el));
+
+    // Stagger journey steps
+    document.querySelectorAll('.journey-step').forEach((el, i) => {
+        el.style.transitionDelay = (i * 0.15) + 's';
+    });
+</script>
+</body>
+</html>

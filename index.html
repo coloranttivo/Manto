@@ -142,20 +142,9 @@
         font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
         color: rgba(255,255,255,0.7);
     }
-    .hero-right .hero-product-img {
-        position: absolute;
-        inset: 0;
-        z-index: 3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .hero-right .hero-product-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
+.hero-right .hero-product-img {
+    display: none;
+}
     .hero-sub {
         font-size: 0.85rem; font-weight: 300; line-height: 1.8;
         color: #5a554e; max-width: 420px; margin-bottom: 48px;
@@ -181,9 +170,9 @@
     .btn-ghost:hover { color: var(--terra); border-color: var(--terra); }
 
     .hero-right {
-        position: relative; overflow: hidden;
-        background: var(--moss);
-    }
+    position: relative; overflow: hidden;
+    background: url('https://raw.githubusercontent.com/coloranttivo/Manto/main/WhatsApp%20Image%202026-05-14%20at%2019.53.53.jpeg') center center / cover no-repeat;
+}
     .hero-right::before {
         content: '';
         position: absolute; inset: 0;
@@ -252,26 +241,29 @@
 
     /* MARQUEE */
     .marquee-strip {
-        background: var(--moss); padding: 16px 0;
+        background: var(--umber); padding: 18px 0;
         overflow: hidden; white-space: nowrap;
+        border-top: 1px solid rgba(245,240,230,0.15);
+        border-bottom: 1px solid rgba(245,240,230,0.15);
     }
     .marquee-inner {
         display: inline-flex; align-items: center;
-        animation: marquee 40s linear infinite;
+        animation: marquee 35s linear infinite;
     }
+    .marquee-inner:hover { animation-play-state: paused; }
     .marquee-item {
-        font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
-        color: rgba(255,255,255,0.5);
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem; letter-spacing: 0.18em;
+        font-style: italic; font-weight: 400;
+        color: var(--cream);
         display: inline-flex; align-items: center;
+        padding: 0 8px;
     }
-    .marquee-item::before {
-        content: '✦';
+    .marquee-sep {
         color: var(--terra);
-        font-size: 0.5rem;
-        padding: 0 28px;
-        display: inline-flex;
-        align-items: center;
-        line-height: 1;
+        font-size: 0.55rem;
+        padding: 0 24px;
+        opacity: 0.8;
     }
 
     section { position: relative; }
@@ -945,14 +937,15 @@
         </div>
     </div>
 
-    <div class="hero-right">
-        <div class="hero-product-img">
-            <img src="WhatsApp Image 2026-05-14 at 19.53.53.jpeg"> alt="Bolso de cuero de micelio">
-            <div class="hero-product-img-label">Cuero de Micelio</div>
-        </div>
-        <div class="hero-mycelium">
-            <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                <g stroke="rgba(255,255,255,0.6)" stroke-width="0.8" fill="none">
+   <div class="hero-right">
+    <div class="hero-product-img">
+        <img src="WhatsApp Image 2026-05-14 at 19.53.53.jpeg" alt="Bolso de cuero de micelio">
+        <div class="hero-product-img-label">Cuero de Micelio</div>
+    </div>
+
+    <div class="hero-mycelium">
+        <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="rgba(255,255,255,0.6)" stroke-width="0.8" fill="none">
                     <line x1="300" y1="300" x2="300" y2="100"/>
                     <line x1="300" y1="100" x2="220" y2="60"/>
                     <line x1="300" y1="100" x2="380" y2="50"/>
@@ -1011,6 +1004,34 @@
 </section>
 
 <!-- MARQUEE -->
+<div class="marquee-strip">
+    <div class="marquee-inner">
+        <span class="marquee-item">Micelio Biodegradable</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Moda Biofabricada</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Cuero de Hongos</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Artesanía Colombiana</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Diseño Sostenible</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Lujo con Propósito</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Piezas Únicas</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Micelio Biodegradable</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Moda Biofabricada</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Cuero de Hongos</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Artesanía Colombiana</span>
+        <span class="marquee-sep">◆</span>
+        <span class="marquee-item">Diseño Sostenible</span>
+        <span class="marquee-sep">◆</span>
+    </div>
+</div>
         <span class="marquee-item">Piezas Únicas</span>
         <span class="marquee-item">Micelio Biodegradable</span>
         <span class="marquee-item">Moda Biofabricada</span>

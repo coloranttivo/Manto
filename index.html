@@ -787,6 +787,24 @@
         transition: color 0.3s;
     }
     .footer-col ul li a:hover { color: var(--terra); }
+    .footer-social {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    .social-link {
+        color: #C4956A;
+        text-decoration: none;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: opacity 0.3s;
+    }
+    .social-link:hover { opacity: 0.7; }
     .footer-bottom {
         display: flex; justify-content: space-between; align-items: center;
     }
@@ -1602,6 +1620,10 @@
         </div>
     </div>
     <div class="footer-bottom">
+        <div class="footer-social">
+            <a href="https://www.instagram.com/cultivatumanto" target="_blank" class="social-link"><i class="ti ti-brand-instagram"></i> @cultivatumanto</a>
+            <a href="https://www.tiktok.com/@cultivatumanto" target="_blank" class="social-link"><i class="ti ti-brand-tiktok"></i> @cultivatumanto</a>
+        </div>
         <div class="footer-copy">© 2026 Manto · Universidad El Bosque · Digital Marketing 2026-3</div>
         <div class="footer-mission">"Ser la primera marca colombiana líder en moda biofabricada, reconocida internacionalmente por transformar la industria del lujo."</div>
     </div>
